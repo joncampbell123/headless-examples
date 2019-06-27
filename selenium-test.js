@@ -13,6 +13,7 @@ var driver = new webdriver.Builder()
     .setFirefoxOptions(options)
     .build();
 
+driver.manage().window().setSize(1024,768);
 driver.get('https://www.google.com');
 driver.findElement(By.name('q')).sendKeys('webdriver');
 
