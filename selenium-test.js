@@ -6,6 +6,7 @@ var firefox = require('selenium-webdriver/firefox');
 
 var options = new firefox.Options();
 options.addArguments("-headless");
+options.setBinary('/usr/lib/firefox-55.0/firefox-bin');
 
 var driver = new webdriver.Builder()
     .forBrowser('firefox')
@@ -19,9 +20,9 @@ driver.sleep(1000).then(function() {
   driver.findElement(By.name('q')).sendKeys(webdriver.Key.TAB);
 });
 
-driver.findElement(By.name('btnK')).click();
+//driver.findElement(By.name('btnK')).click();
 
-driver.sleep(2000).then(function() {
+driver.sleep(1000).then(function() {
   driver.getTitle().then(function(title) {
     if(title === 'webdriver - Google Search') {
       console.log('Test passed');
@@ -30,5 +31,7 @@ driver.sleep(2000).then(function() {
     }
   });
 });
+
+driver.takeScreenshot().then(function(image, err) { require('fs').writeFile('snapshot.png', image, 'base64', function(err) { console.log(err); }) });
 
 driver.quit();
