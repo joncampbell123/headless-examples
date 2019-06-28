@@ -1,4 +1,5 @@
 
+var url_id = undefined;
 var video_id = undefined;
 
 var i=2; // 0 is 'node', '1' is this script
@@ -8,13 +9,36 @@ while (i < process.argv.length) {
     if (x == '--video') {
         video_id = process.argv[i++];
     }
+    else if (x == '--url') {
+        url_id = process.argv[i++];
+    }
     else {
         console.warn('Unknown param '+x);
         process.exit();
     }
 }
 
+if (url_id != undefined && video_id == undefined) {
+    if (url_id.match(/(http|https):\/\/www\.tiktok\.com\/share\/video\//)) {
+        i = url_id.indexOf('?');
+        if (i >= 0) url_id = url_id.substr(0,i);
+        console.log('Using URL ' + url_id);
+
+        i = url_id.lastIndexOf('/');
+        if (i >= 0) {
+            video_id = url_id.substr(i+1);
+        }
+    }
+    else {
+        console.warn("Unknown url "+url_id);
+        process.exit();
+    }
+}
+
 console.log("Locating: "+video_id);
+if (video_id == undefined || video_id == '') {
+    process.exit();
+}
 
 var util = require('util');
 var chproc = require('child_process');
