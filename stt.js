@@ -1,3 +1,24 @@
+
+var video_id = undefined;
+
+var i=2; // 0 is 'node', '1' is this script
+while (i < process.argv.length) {
+    var x = process.argv[i++];
+
+    if (x == '--video') {
+        video_id = process.argv[i++];
+    }
+    else {
+        console.warn('Unknown param '+x);
+        process.exit();
+    }
+}
+
+console.log("Locating: "+video_id);
+
+var util = require('util');
+var chproc = require('child_process');
+
 var webdriver = require('selenium-webdriver'),
     By = webdriver.By,
     until = webdriver.until;
@@ -14,11 +35,15 @@ var driver = new webdriver.Builder()
     .build();
 
 driver.manage().window().setSize(720,1280); // you know, like a cell phone held vertically!
-driver.get('https://www.tiktok.com/share/video/6644242110230826246');
+driver.get('https://www.tiktok.com/share/video/' + video_id);
 
 driver.findElement(By.id('__APP_ROOT__')).findElement(By.tagName('video')).getAttribute('src').then(
     function(src) {
         console.log('Found URL: '+src);
+
+        var out = 'tiktok-'+video_id+'.mp4';
+
+        chproc.execFileSync('/usr/bin/wget', [ "--debug", "--user-agent=Mozilla/5.0 (X11; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0", "-O", out, src ]);
     }
 );
 
@@ -28,6 +53,6 @@ driver.findElement(By.id('__APP_ROOT__')).findElement(By.tagName('video')).getAt
 
 //driver.findElement(By.name('btnK')).click();
 
-driver.takeScreenshot().then(function(image, err) { require('fs').writeFile('snapshot.png', image, 'base64', function(err) { console.log(err); }) });
+driver.takeScreenshot().then(function(image, err) { require('fs').writeFile('tiktok-'+video_id+'.png', image, 'base64', function(err) { console.log(err); }) });
 
 driver.quit();

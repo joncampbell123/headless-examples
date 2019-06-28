@@ -19,6 +19,8 @@
   "homepage": "https://github.com/mdn/headless-examples#readme",
   "dependencies": {
     "geckodriver": "^1.16.2",
-    "selenium-webdriver": "^3.6.0"
+    "node-wget": "^0.4.3",
+    "selenium-webdriver": "^3.6.0",
+    "wget": "0.0.1"
   }
 }
