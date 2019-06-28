@@ -19,7 +19,8 @@ while (i < process.argv.length) {
 }
 
 if (url_id != undefined && video_id == undefined) {
-    if (url_id.match(/(http|https):\/\/www\.tiktok\.com\/share\/video\//)) {
+    if (url_id.match(/(http|https):\/\/www\.tiktok\.com\/share\/video\//) ||
+        url_id.match(/(http|https):\/\/www\.tiktok\.com\/\@[^\/]+\/video\//)) {
         i = url_id.indexOf('?');
         if (i >= 0) url_id = url_id.substr(0,i);
         console.log('Using URL ' + url_id);
