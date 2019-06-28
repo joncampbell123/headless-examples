@@ -67,7 +67,7 @@ driver.findElement(By.id('__APP_ROOT__')).findElement(By.tagName('video')).getAt
 
         var out = 'tiktok-'+video_id+'.mp4';
 
-        chproc.execFileSync('/usr/bin/wget', [ "--debug", "--user-agent=Mozilla/5.0 (X11; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0", "-O", out, src ]);
+        chproc.execFileSync('/usr/bin/wget', [ "--limit-rate=80K", "--user-agent=Mozilla/5.0 (X11; Linux x86_64; rv:67.0) Gecko/20100101 Firefox/67.0", "-O", out, src ]);
     }
 );
 
